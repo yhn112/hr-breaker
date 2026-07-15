@@ -388,8 +388,11 @@ async def test_profile_document_upload_forwards_llm_overrides(client, monkeypatc
                 f"/api/profile/{profile.id}/document",
                 files={"file": ("resume.txt", b"resume text", "text/plain")},
                 data={
+                    "llm_backend": "codex_cli",
+                    "codex_model": "gpt-pro",
+                    "codex_flash_model": "gpt-flash",
+                    "codex_reasoning_effort": "xhigh",
                     "flash_model": "openai/gpt-5.3-codex",
-                    "reasoning_effort": "medium",
                     "api_keys_json": json.dumps({"openai": "sk-test"}),
                     "providers_json": json.dumps({
                         "flash": {"provider": "custom", "base_url": "https://example.test/v1"}
@@ -403,8 +406,11 @@ async def test_profile_document_upload_forwards_llm_overrides(client, monkeypatc
             profile.id,
             [doc_id],
             overrides={
+                "llm_backend": "codex_cli",
+                "codex_model": "gpt-pro",
+                "codex_flash_model": "gpt-flash",
+                "codex_reasoning_effort": "xhigh",
                 "flash_model": "openai/gpt-5.3-codex",
-                "reasoning_effort": "medium",
                 "api_keys": {"openai": "sk-test"},
                 "flash_openai_api_base": "https://example.test/v1",
             },
@@ -459,8 +465,11 @@ async def test_re_extract_profile_forwards_llm_overrides(client, monkeypatch, tm
             resp = await client.post(
                 f"/api/profile/{profile.id}/extract",
                 json={
+                    "llm_backend": "codex_cli",
+                    "codex_model": "gpt-pro",
+                    "codex_flash_model": "gpt-flash",
+                    "codex_reasoning_effort": "xhigh",
                     "flash_model": "openai/gpt-5.3-codex",
-                    "reasoning_effort": "medium",
                     "api_keys": {"openai": "sk-test"},
                     "providers": {
                         "flash": {
@@ -477,8 +486,11 @@ async def test_re_extract_profile_forwards_llm_overrides(client, monkeypatch, tm
             profile.id,
             [doc.id],
             overrides={
+                "llm_backend": "codex_cli",
+                "codex_model": "gpt-pro",
+                "codex_flash_model": "gpt-flash",
+                "codex_reasoning_effort": "xhigh",
                 "flash_model": "openai/gpt-5.3-codex",
-                "reasoning_effort": "medium",
                 "api_keys": {"openai": "sk-test"},
                 "flash_openai_api_base": "https://example.test/v1",
             },
@@ -590,6 +602,10 @@ def test_build_overrides_maps_scoped_custom_base_urls():
     req = server_module.OptimizeRequest(
         resume_checksum="resume-checksum",
         job_text="Product manager role",
+        llm_backend="codex_cli",
+        codex_model="gpt-pro",
+        codex_flash_model="gpt-flash",
+        codex_reasoning_effort="xhigh",
         flash_model="openai/gpt-5.3-codex",
         embedding_model="openai/text-embedding-3-small",
         api_keys={"openai": "sk-test"},
@@ -603,6 +619,10 @@ def test_build_overrides_maps_scoped_custom_base_urls():
     overrides = server_module._build_overrides(req)
 
     assert overrides == {
+        "llm_backend": "codex_cli",
+        "codex_model": "gpt-pro",
+        "codex_flash_model": "gpt-flash",
+        "codex_reasoning_effort": "xhigh",
         "flash_model": "openai/gpt-5.3-codex",
         "embedding_model": "openai/text-embedding-3-small",
         "api_keys": {"openai": "sk-test"},
