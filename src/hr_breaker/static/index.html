@@ -561,10 +561,13 @@
 
                     <div class="setting-field">
                         <label for="opt-reasoning">Reasoning effort</label>
-                        <select id="opt-reasoning" x-model="settings.codexReasoningEffort"
+                        <select id="opt-reasoning" :value="settings.codexReasoningEffort"
+                                @change="settings.codexReasoningEffort = $event.target.value"
                                 x-show="settings.llmBackend === 'codex_cli'">
                             <template x-for="effort in reasoningEffortOptions" :key="effort.value || 'default'">
-                                <option :value="effort.value" x-text="effort.label"></option>
+                                <option :value="effort.value"
+                                        :selected="effort.value === settings.codexReasoningEffort"
+                                        x-text="effort.label"></option>
                             </template>
                         </select>
                         <select id="opt-api-reasoning" x-model="settings.reasoningEffort"
@@ -583,11 +586,12 @@
                     <div x-show="settings.llmBackend === 'codex_cli'">
                         <div class="setting-field">
                             <label for="opt-codex-model">Codex pro model</label>
-                            <select id="opt-codex-model" x-model="settings.codexModel"
-                                    @change="onCodexModelChange()"
+                            <select id="opt-codex-model" :value="settings.codexModel"
+                                    @change="settings.codexModel = $event.target.value; onCodexModelChange()"
                                     :disabled="codexStatus.loading || !codexModelOptions.length">
                                 <template x-for="model in codexModelOptions" :key="`pro-${model.value}`">
                                     <option :value="model.value"
+                                            :selected="model.value === settings.codexModel"
                                             x-text="model.label + (model.is_default ? ' (default)' : '')"></option>
                                 </template>
                             </select>
@@ -596,11 +600,12 @@
                         </div>
                         <div class="setting-field">
                             <label for="opt-codex-flash-model">Codex flash model</label>
-                            <select id="opt-codex-flash-model" x-model="settings.codexFlashModel"
-                                    @change="onCodexModelChange()"
+                            <select id="opt-codex-flash-model" :value="settings.codexFlashModel"
+                                    @change="settings.codexFlashModel = $event.target.value; onCodexModelChange()"
                                     :disabled="codexStatus.loading || !codexModelOptions.length">
                                 <template x-for="model in codexModelOptions" :key="`flash-${model.value}`">
                                     <option :value="model.value"
+                                            :selected="model.value === settings.codexFlashModel"
                                             x-text="model.label + (model.is_default ? ' (default)' : '')"></option>
                                 </template>
                             </select>

@@ -35,6 +35,9 @@ async def test_index(client):
     resp = await client.get("/")
     assert resp.status_code == 200
     assert "HR-Breaker" in resp.text
+    assert ':selected="effort.value === settings.codexReasoningEffort"' in resp.text
+    assert ':selected="model.value === settings.codexModel"' in resp.text
+    assert ':selected="model.value === settings.codexFlashModel"' in resp.text
 
 
 @pytest.mark.asyncio
